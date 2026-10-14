@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOMPET SADAR - Kabupaten Wonogiri</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#113327',
+                            green: '#1B4D3E',
+                            emerald: '#2D6A4F',
+                            lightgreen: '#52B788',
+                            softgreen: '#D8F3DC',
+                            gold: '#D4AF37',
+                            yellow: '#FFB703',
+                            lightyellow: '#FEF08A',
+                            cream: '#FEFAE0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-header {
+            background: linear-gradient(135deg, #113327 0%, #1B4D3E 60%, #2D6A4F 100%);
+        }
+        .gradient-gold {
+            background: linear-gradient(135deg, #FFB703 0%, #D4AF37 100%);
+        }
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -8px rgba(27, 77, 62, 0.15);
+        }
+        .light-glow-green { box-shadow: 0 0 15px #10B981; }
+        .light-glow-yellow { box-shadow: 0 0 15px #F59E0B; }
+        .light-glow-red { box-shadow: 0 0 15px #EF4444; }
+        @media print {
+            .no-print { display: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 font-sans text-slate-800 antialiased min-h-screen flex flex-col">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-brand-dark text-brand-lightyellow text-xs py-1.5 px-4 text-center font-medium flex items-center justify-center gap-2 border-b border-brand-gold/30 no-print">
+        <i class="fa-solid fa-triangle-exclamation text-brand-yellow"></i>
+        <span>Waspada Pinjaman Ilegal & Bank Plecit! Selalu Cek Rasio Kemampuan Bayar Sebelum Berutang.</span>
+    </div>
+
+    <!-- MAIN HEADER / NAVBAR (LOGO KIRI & NAVIGATION LONGGAR) -->
+    <header class="gradient-header text-white sticky top-0 z-50 shadow-lg border-b-2 border-brand-gold no-print">
+        <div class="w-full max-w-[96%] mx-auto px-2 sm:px-4">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo & Title Digeser Ke Kiri -->
+                <div class="flex items-center gap-3 cursor-pointer" onclick="switchTab('beranda')">
+                    <div class="w-11 h-11 bg-white rounded-xl p-1 shadow-md flex items-center justify-center border border-brand-gold flex-shrink-0">
+                        <i class="fa-solid font-bold fa-wallet text-2xl text-brand-dark"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-extrabold text-lg sm:text-xl tracking-tight text-white flex items-center gap-2">
+                            DOMPET SADAR
+                            <span class="bg-brand-gold text-brand-dark text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Wonogiri</span>
+                        </h1>
+                        <p class="text-[11px] sm:text-xs text-brand-softgreen font-light">Sistem Anggaran & Deteksi Risiko Keuangan Pribadi</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation (Longgar & Tidak Padat) -->
+                <nav class="hidden lg:flex items-center space-x-2">
+                    <button onclick="switchTab('beranda')" id="btn-beranda" class="nav-link px-3 py-2 rounded-xl text-xs font-semibold transition-all text-brand-yellow bg-white/10 flex items-center gap-1.5">
+                        <i class="fa-solid fa-house text-sm"></i> Beranda
+                    </button>
+                    <button onclick="switchTab('profil')" id="btn-profil" class="nav-link px-3 py-2 rounded-xl text-xs font-semibold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+                        <i class="fa-solid fa-wallet text-sm"></i> Pencatatan Kas
+                    </button>
+                    <button onclick="switchTab('simulasi')" id="btn-simulasi" class="nav-link px-3 py-2 rounded-xl text-xs font-semibold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+                        <i class="fa-solid fa-traffic-light text-sm"></i> Simulasi Utang
+                    </button>
+                    <button onclick="switchTab('kalkulator')" id="btn-kalkulator" class="nav-link px-3 py-2 rounded-xl text-xs font-semibold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1.5">
+                        <i class="fa-solid fa-scale-balanced text-sm"></i> Kalkulator Perbandingan
+                    </button>
+                    <button onclick="switchTab('edukasi')" id="btn-edukasi" class="nav-link px-3 py-2 rounded-xl text-xs font-semibold transition-all text-white/80 hover:text-white hover:bg-white/10 flex items-center gap-1.5 bg-white/5 border border-white/10">
+                        <i class="fa-solid fa-shield-halved text-brand-gold text-sm"></i> Edukasi & OJK 157
+                    </button>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="lg:hidden">
+                    <button onclick="toggleMobileMenu()" class="text-white hover:text-brand-yellow focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-dark px-4 pt-2 pb-4 space-y-2 border-t border-brand-emerald">
+            <button onclick="switchTab('beranda')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-brand-yellow hover:bg-brand-green"><i class="fa-solid fa-house w-6"></i> Beranda & Ringkasan</button>
+            <button onclick="switchTab('profil')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-brand-green"><i class="fa-solid fa-wallet w-6"></i> Pencatatan Arus Kas</button>
+            <button onclick="switchTab('simulasi')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-brand-green"><i class="fa-solid fa-traffic-light w-6"></i> Simulasi Traffic Light</button>
+            <button onclick="switchTab('kalkulator')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-brand-green"><i class="fa-solid fa-scale-balanced w-6"></i> Kalkulator Perbandingan</button>
+            <button onclick="switchTab('edukasi')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-white hover:bg-brand-green"><i class="fa-solid fa-shield-halved w-6"></i> Edukasi & OJK 157</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- ================= TAB 1: BERANDA (LENGKAP DENGAN RINGKASAN KEUANGAN) ================= -->
+        <section id="tab-beranda" class="tab-content space-y-8">
+            
+            <!-- HERO BANNER -->
+            <div class="relative bg-gradient-to-r from-brand-green via-brand-emerald to-brand-dark rounded-3xl p-6 sm:p-10 text-white shadow-xl overflow-hidden border border-brand-gold/20">
+                <div class="absolute -right-10 -bottom-10 opacity-10 text-brand-gold">
+                    <i class="fa-solid fa-wallet text-[260px]"></i>
+                </div>
+                <div class="relative z-10 max-w-3xl space-y-3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-brand-gold/20 backdrop-blur-md rounded-full border border-brand-gold/40 text-brand-lightyellow text-xs font-semibold">
+                        <i class="fa-solid fa-seedling"></i> Inovasi Literasi Keuangan Kabupaten Wonogiri
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
+                        Cegah Utang Impulsif,<br>
+                        <span class="text-brand-yellow">Lindungi Arus Kas Keluarga</span>
+                    </h2>
+                    <p class="text-brand-softgreen text-xs sm:text-sm leading-relaxed">
+                        DOMPET SADAR membantu warga mencatat arus kas mandiri dan menguji kelayakan pinjaman dengan sistem peringatan dini <strong class="text-white">Traffic Light System (Hijau, Kuning, Merah)</strong> sebelum berkomitmen pada utang.
+                    </p>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <button onclick="switchTab('profil')" class="gradient-gold text-brand-dark font-bold px-5 py-2.5 rounded-xl shadow-lg hover:brightness-110 transition-all text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square"></i> Input / Ubah Arus Kas
+                        </button>
+                        <button onclick="switchTab('simulasi')" class="bg-white/10 hover:bg-white/20 text-white font-semibold px-5 py-2.5 rounded-xl backdrop-blur-md transition-all border border-white/20 text-xs flex items-center gap-2">
+                            <i class="fa-solid fa-traffic-light"></i> Uji Simulasi Utang
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+	<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-emerald-500 card-hover flex items-center gap-4">
+                    <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-2xl flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-shield-check"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Batas Aman Utang (DSR)</p>
+                        <p class="text-2xl font-bold text-slate-800">&lt; 30%</p>
+                        <p class="text-xs text-emerald-600 font-medium mt-1">Maksimal dari Pendapatan Bersih</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-amber-500 card-hover flex items-center gap-4">
+                    <div class="w-14 h-14 bg-amber-100 text-amber-700 rounded-2xl flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Zona Waspada Finansial</p>
+                        <p class="text-2xl font-bold text-slate-800">30% - 40%</p>
+                        <p class="text-xs text-amber-600 font-medium mt-1">Beban Utang Mulai Berat</p>
+                    </div>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-sm border-l-4 border-rose-500 card-hover flex items-center gap-4">
+                    <div class="w-14 h-14 bg-rose-100 text-rose-700 rounded-2xl flex items-center justify-center text-2xl font-bold">
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-500 font-medium">Bahaya Bank Plecit / Pinjol</p>
+                        <p class="text-2xl font-bold text-rose-600">&gt; 40%</p>
+                        <p class="text-xs text-rose-600 font-medium mt-1">Risiko Teror &amp; Kredit Macet</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION RINGKASAN KEUANGAN KELUARGA (DI BERANDA) -->
+            <div class="space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+                    <div>
+                        <h3 class="text-xl sm:text-2xl font-bold text-brand-dark flex items-center gap-2">
+                            <i class="fa-solid fa-chart-pie text-brand-green"></i> Ringkasan Keuangan Anda Saat Ini
+                        </h3>
+                        <p class="text-xs text-slate-600">Gambaran umum kapasitas pendapatan, pengeluaran, dan rasio batas aman utang.</p>
+                    </div>
+                    <button onclick="switchTab('profil')" class="text-xs font-bold text-brand-green hover:underline flex items-center gap-1">
+                        Edit Angka <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <!-- 4 KARTU STATISTIK RINGKASAN -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">TOTAL PENDAPATAN</span>
+                            <p id="sum-card-inc" class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-1">Rp 6.000.000</p>
+                            <span class="text-[10px] text-slate-500 mt-0.5 block"><i class="fa-solid fa-wallet text-emerald-500 mr-1"></i>Pendapatan bersih bulanan</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-money-bill-trend-up"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">TOTAL PENGELUARAN</span>
+                            <p id="sum-card-exp" class="text-xl sm:text-2xl font-extrabold text-slate-800 mt-1">Rp 3.000.000</p>
+                            <span class="text-[10px] text-slate-500 mt-0.5 block"><i class="fa-solid fa-basket-shopping text-rose-500 mr-1"></i>Kebutuhan Pokok + Keinginan</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-rose-100 text-rose-600 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-cart-arrow-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">ARUS KAS BERSIH (SISA)</span>
+                            <p id="sum-card-net" class="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1">Rp 3.000.000</p>
+                            <span id="sum-card-net-sub" class="text-[10px] text-slate-500 mt-0.5 block"><i class="fa-solid fa-scale-balanced text-sky-500 mr-1"></i>Dana aman tersedia</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-piggy-bank"></i>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                        <div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider text-slate-500 block">RASIO UTANG (DSR)</span>
+                            <p id="sum-card-dsr" class="text-xl sm:text-2xl font-extrabold text-emerald-600 mt-1">6,67%</p>
+                            <span class="text-[10px] text-slate-500 mt-0.5 block"><i class="fa-solid fa-percent text-emerald-500 mr-1"></i>Batas Aman OJK: &le; 30%</span>
+                        </div>
+                        <div class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg flex-shrink-0">
+                            <i class="fa-solid fa-percent"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EVALUASI KETAHANAN KEUANGAN KELUARGA -->
+                <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200 space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span id="eval-dot" class="w-4 h-4 rounded-full bg-emerald-500 flex-shrink-0"></span>
+                            <div>
+                                <h4 class="font-bold text-base text-slate-800">Evaluasi Ketahanan Keuangan Keluarga</h4>
+                                <p class="text-[11px] text-slate-500">Hasil Analisis Otomatis Berdasarkan Data Arus Kas</p>
+                            </div>
+                        </div>
+                        <span id="eval-badge" class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800">
+                            SANGAT SEHAT
+                        </span>
+                    </div>
+
+                    <p id="eval-desc" class="text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
+                        Kondisi keuangan keluarga Anda berada dalam kategori **SEHAT**! Rasio utang berjalan berada di angka **6,67%** (di bawah ambang batas aman 30%), dan Anda memiliki surplus arus kas bersih sebesar **Rp 3.000.000** per bulan.
+                    </p>
+
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                        <div class="flex justify-between text-xs font-bold text-slate-700">
+                            <span>Kapasitas Tambahan Utang Bulanan:</span>
+                            <span id="eval-capacity" class="text-emerald-700">Rp 1.400.000 / bulan</span>
+                        </div>
+                        <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="eval-capacity-bar" class="bg-emerald-500 h-full transition-all duration-500" style="width: 22.2%;"></div>
+                        </div>
+                        <p class="text-[10px] text-slate-500">*DSR (Debt Service Ratio) dihitung dari total cicilan utang dibagi total pendapatan bersih.</p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+
+        <!-- ================= TAB 2: PENCATATAN ARUS KAS (POS-POS KEUANGAN - 4 GRID) ================= -->
+        <section id="tab-profil" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h3 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                            <i class="fa-solid fa-wallet text-brand-green"></i> Pencatatan Arus Kas Rumah Tangga
+                        </h3>
+                        <p class="text-sm text-slate-600">Isi pos-pos pendapatan dan pengeluaran keluarga untuk menghitung Arus Kas Bersih dan Batas Aman Utang.</p>
+                    </div>
+                    <!-- BAGIAN TOMBOL AKSI PENCATATAN -->
+                    <div class="flex items-center gap-2">
+                        <button onclick="bukaModalPengeluaran()" class="text-xs bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-2 rounded-xl shadow transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-plus"></i> Tambah Pengeluaran
+                        </button>
+                        <button onclick="simpanDataKas()" class="text-xs bg-brand-green hover:bg-brand-dark text-white font-semibold px-3.5 py-2 rounded-xl shadow transition-all flex items-center gap-1.5">
+                            <i class="fa-solid fa-floppy-disk"></i> Simpan Data
+                        </button>
+                        <button onclick="resetKas()" class="text-xs text-rose-600 hover:text-rose-800 font-semibold px-3 py-2 rounded-xl border border-rose-200 hover:bg-rose-50 transition-all">
+                            <i class="fa-solid fa-rotate-left"></i> Reset
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Form 4 Pos Keuangan -->
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            
+                            <!-- POS 1: Pendapatan Bersih Bulanan -->
+                            <div class="bg-emerald-50/70 p-5 rounded-2xl border border-emerald-200 space-y-4 shadow-sm">
+                                <div class="flex items-center justify-between border-b border-emerald-200/80 pb-2.5">
+                                    <h4 class="font-bold text-emerald-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-money-bill-wave text-emerald-600"></i> 1. Pendapatan Bersih Bulanan
+                                    </h4>
+                                    <span id="sum-inc" class="font-extrabold text-xs text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 whitespace-nowrap flex-shrink-0">Rp 6.000.000</span>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Gaji / Hasil Usaha / Panen Rutin (Rp)</label>
+                                        <input type="text" id="inc-utama" value="5.000.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Pendapatan Sampingan / Kiriman Anak (Rp)</label>
+                                        <input type="text" id="inc-sampingan" value="1.000.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Bantuan Pemerintah / Bansos (Lainnya) (Rp)</label>
+                                        <input type="text" id="inc-bansos" value="0" placeholder="Contoh: 300.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-emerald-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- POS 2: Pengeluaran Pokok (Wajib Dapur) -->
+                            <div class="bg-slate-50/90 p-5 rounded-2xl border border-slate-200 space-y-4 shadow-sm">
+                                <div class="flex items-center justify-between border-b border-slate-200/80 pb-2.5">
+                                    <h4 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-utensils text-slate-600"></i> 2. Pengeluaran Pokok (Wajib Dapur)
+                                    </h4>
+                                   <span id="sum-exp-pokok" class="font-extrabold text-xs text-slate-700 bg-white px-2.5 py-1 rounded-lg border border-slate-200 whitespace-nowrap flex-shrink-0">Rp 2.250.000</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Makan & Dapur (Rp)</label>
+                                        <input type="text" id="exp-makan" value="1.500.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-slate-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Listrik, Air & Gas (Rp)</label>
+                                        <input type="text" id="exp-listrik" value="250.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-slate-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Sekolah & Anak (Rp)</label>
+                                        <input type="text" id="exp-sekolah" value="300.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-slate-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Kesehatan & Bensin (Rp)</label>
+                                        <input type="text" id="exp-kesehatan" value="200.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-slate-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- POS 3: Gaya Hidup & Sosialisasi -->
+                            <div class="bg-sky-50/70 p-5 rounded-2xl border border-sky-200 space-y-4 shadow-sm">
+                                <div class="flex items-center justify-between border-b border-sky-200/80 pb-2.5">
+                                    <h4 class="font-bold text-sky-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-mug-hot text-sky-600"></i> 3. Gaya Hidup & Sosialisasi
+                                    </h4>
+                                    <span id="sum-exp-gaya" class="font-extrabold text-xs text-sky-700 bg-white px-2.5 py-1 rounded-lg border border-sky-200 whitespace-nowrap flex-shrink-0">Rp 350.000</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Jajan & Kopi (Rp)</label>
+                                        <input type="text" id="exp-jajan" value="200.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-sky-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Arisan & Hajatan (Rp)</label>
+                                        <input type="text" id="exp-arisan" value="150.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-sky-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- POS 4: Cicilan Utang Eksisting -->
+                            <div class="bg-rose-50/70 p-5 rounded-2xl border border-rose-200 space-y-4 shadow-sm">
+                                <div class="flex items-center justify-between border-b border-rose-200/80 pb-2.5">
+                                    <h4 class="font-bold text-rose-900 text-sm flex items-center gap-2">
+                                        <i class="fa-solid fa-credit-card text-rose-600"></i> 4. Cicilan Utang Eksisting
+                                    </h4>
+                                    <span id="sum-exp-utang" class="font-extrabold text-xs text-rose-700 bg-white px-2.5 py-1 rounded-lg border border-rose-200 whitespace-nowrap flex-shrink-0">Rp 400.000</span>
+                                </div>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Bank / Koperasi Resmi (Rp)</label>
+                                        <input type="text" id="exp-utang-resmi" value="400.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-rose-500 text-sm font-semibold text-slate-800">
+                                    </div>
+                                    <div>
+                                        <label class="block text-xs font-semibold text-slate-700 mb-1">Bank Plecit / Pinjol / Harian (Rp)</label>
+                                        <input type="text" id="exp-utang-plecit" value="0" placeholder="Contoh: 200.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-rose-500 text-sm font-semibold text-rose-600">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- MODAL POPUP TAMBAH PENGELUARAN -->
+                    <div id="modal-pengeluaran" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+                        <div class="bg-white rounded-2xl p-6 max-w-md w-full space-y-4 shadow-2xl">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h3 class="font-bold text-base text-slate-800 flex items-center gap-2">
+                                    <i class="fa-solid fa-plus-circle text-brand-green"></i> Tambah Opsi Pengeluaran Baru
+                                </h3>
+                                <button onclick="tutupModalPengeluaran()" class="text-slate-400 hover:text-slate-600 text-lg">&times;</button>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nama Pengeluaran</label>
+                                <input type="text" id="new-exp-name" placeholder="Contoh: Cicilan Motor, Pulsa & Kuota, Dll" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-green">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Pilih Pos Pengeluaran</label>
+                                <select id="new-exp-pos" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-green">
+                                    <option value="2">Pos 2: Pengeluaran Pokok (Wajib Dapur)</option>
+                                    <option value="3">Pos 3: Gaya Hidup & Sosialisasi</option>
+                                    <option value="4">Pos 4: Cicilan Utang Eksisting</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nominal Per Bulan (Rp)</label>
+                                <input type="text" id="new-exp-val" value="0" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-slate-800 focus:ring-2 focus:ring-brand-green">
+                            </div>
+
+                            <div class="flex justify-end gap-2 pt-2 border-t">
+                                <button onclick="tutupModalPengeluaran()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl">Batal</button>
+                                <button onclick="prosesTambahPengeluaran()" class="px-4 py-2 text-xs font-bold bg-brand-green hover:bg-brand-dark text-white rounded-xl shadow">
+                                    <i class="fa-solid fa-check mr-1"></i> Tambahkan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Summary Card -->
+                    <div class="lg:col-span-4 flex flex-col justify-between bg-gradient-to-br from-brand-dark to-brand-green p-6 rounded-3xl text-white shadow-lg space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between border-b border-brand-emerald pb-3 mb-4">
+                                <h4 class="font-extrabold text-brand-yellow uppercase tracking-wider text-xs">KAPASITAS ARUS KAS</h4>
+                                <span class="text-[10px] bg-brand-gold/20 text-brand-lightyellow px-2 py-0.5 rounded-full border border-brand-gold/30">Laporan Otomatis</span>
+                            </div>
+
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-brand-softgreen">Total Pendapatan:</span>
+                                    <span id="res-total-inc" class="font-bold text-lg text-white">Rp 6.000.000</span>
+                                </div>
+                                <div class="flex justify-between items-center text-sm">
+                                    <span class="text-brand-softgreen">Total Pengeluaran:</span>
+                                    <span id="res-total-exp" class="font-bold text-lg text-amber-300">Rp 3.000.000</span>
+                                </div>
+                                <hr class="border-brand-emerald">
+                                <div class="flex justify-between items-center">
+                                    <span class="font-bold text-white text-base">Arus Kas Bersih:</span>
+                                    <span id="res-net-cash" class="font-extrabold text-2xl text-emerald-400">Rp 3.000.000</span>
+                                </div>
+                            </div>
+
+                            <!-- Indicator DSR Current -->
+                            <div class="mt-6 bg-white/10 p-4 rounded-2xl backdrop-blur-md border border-white/10 space-y-2">
+                                <div class="flex justify-between text-xs">
+                                    <span class="text-brand-softgreen">Beban Utang Saat Ini (DSR):</span>
+                                    <span id="res-dsr-current" class="font-bold text-brand-yellow">6.67%</span>
+                                </div>
+                                <div class="w-full bg-white/20 h-2.5 rounded-full overflow-hidden">
+                                    <div id="bar-dsr-current" class="bg-emerald-400 h-full transition-all duration-500" style="width: 6.67%;"></div>
+                                </div>
+                                <p id="text-dsr-status" class="text-[11px] text-emerald-300 font-medium pt-1">
+                                    <i class="fa-solid fa-circle-check"></i> Arus kas sehat! Beban utang saat ini masih di bawah ambang batas aman (30%).
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-brand-emerald space-y-2">
+                            <button onclick="window.print()" class="w-full bg-white/10 hover:bg-white/20 text-white font-semibold text-xs py-3 rounded-xl border border-white/20 transition-all text-center flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-print"></i> Cetak Ringkasan Arus Kas
+                            </button>
+                            <button onclick="switchTab('simulasi')" class="w-full gradient-gold text-brand-dark font-bold text-xs py-3 rounded-xl hover:brightness-110 transition-all text-center flex items-center justify-center gap-1">
+                                Lanjut Uji Kelayakan Pinjaman <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 3: SIMULASI PINJAMAN TRAFFIC LIGHT ================= -->
+        <section id="tab-simulasi" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+                <div class="border-b border-slate-200 pb-4 mb-6">
+                    <h3 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                        <i class="fa-solid fa-traffic-light text-amber-500"></i> Simulasi Kelayakan Pinjaman (Traffic Light System)
+                    </h3>
+                    <p class="text-sm text-slate-600">Gunakan fitur ini SEBELUM mengambil utang baru untuk mendeteksi kemampuan bayar.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Form Simulasi Input -->
+                    <div class="lg:col-span-6 space-y-5">
+                        <div class="bg-amber-50/60 p-4 rounded-2xl border border-amber-200 text-xs text-amber-900 flex items-center gap-3">
+                            <i class="fa-solid fa-circle-info text-amber-600 text-xl flex-shrink-0"></i>
+                            <span>Terhubung otomatis dengan <strong>Pendapatan Bersih (Rp <span id="sim-inc-val">6.000.000</span>)</strong> Anda.</span>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Rencana Jumlah Pinjaman Baru (Rp)</label>
+                            <input type="text" id="sim-nominal" value="5.000.000" onkeyup="formatAndCalculate(this)" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-base font-bold text-slate-800">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Jangka Waktu / Tenor (Bulan)</label>
+                                <!-- INPUT TENOR BEBAS MANUALLY -->
+                                <input type="text" id="sim-tenor" value="6" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-sm font-bold text-slate-800" placeholder="Ketik bulan (e.g. 6)">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Suku Bunga Per Bulan (%)</label>
+                                <input type="number" step="0.1" id="sim-bunga" value="1.5" onkeyup="simulasikanUtang()" onchange="simulasikanUtang()" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-sm font-semibold">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-700 mb-1">Sumber / Jenis Pemberi Pinjaman</label>
+                            <select id="sim-jenis" onchange="simulasikanUtang()" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-sm font-semibold">
+                                <option value="resmi">Bank Resmi / Koperasi Resmi / Perbankan (OJK)</option>
+                                <option value="pinjol_legal">Aplikasi Pinjol Legal Terdaftar OJK</option>
+                                <option value="plecit">Bank Plecit / Rentenir Harian / Pinjol Ilegal (BAHAYA!)</option>
+                            </select>
+                        </div>
+
+                        <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-1.5 text-slate-600">
+                            <div class="flex justify-between">
+                                <span>Estimasi Angsuran Baru / Bulan:</span>
+                                <strong id="sim-angsuran-baru" class="text-slate-800 text-sm">Rp 908.333</strong>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Total Beban Utang Bulanan Baru (Lama + Baru):</span>
+                                <strong id="sim-total-beban" class="text-slate-800 text-sm">Rp 1.308.333</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Indicator Traffic Light -->
+                    <div class="lg:col-span-6">
+                        <div id="traffic-box" class="h-full rounded-3xl p-6 border-2 flex flex-col justify-between transition-all duration-300 bg-emerald-50 border-emerald-400">
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-white shadow-sm text-slate-700">
+                                        Hasil Deteksi Dini
+                                    </span>
+                                    <div class="flex items-center space-x-2">
+                                        <span id="light-green" class="w-4 h-4 rounded-full bg-emerald-500 light-glow-green"></span>
+                                        <span id="light-yellow" class="w-4 h-4 rounded-full bg-slate-300"></span>
+                                        <span id="light-red" class="w-4 h-4 rounded-full bg-slate-300"></span>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2 pt-2">
+                                    <h4 id="traffic-title" class="text-2xl font-extrabold text-emerald-800">
+                                        <i class="fa-solid fa-circle-check text-emerald-600"></i> HIJAU: PINJAMAN AMAN
+                                    </h4>
+                                    <p id="traffic-desc" class="text-xs sm:text-sm text-emerald-900 leading-relaxed font-medium">
+                                        Rasio cicilan utang Anda setelah ditambah pinjaman baru adalah <strong>21.8%</strong> dari total pendapatan. Nilai ini aman & berada di bawah ambang batas toleransi.
+                                    </p>
+                                </div>
+
+                                <div id="traffic-recommendation" class="bg-white p-4 rounded-2xl border border-emerald-200 text-xs text-slate-700 space-y-2">
+                                    <strong class="text-emerald-800 block font-bold">Rekomendasi Tindakan:</strong>
+                                    <ul class="list-disc pl-4 space-y-1">
+                                        <li>Pinjaman diperbolehkan karena tidak mengganggu kebutuhan pokok bulanan keluarga.</li>
+                                        <li>Pastikan meminjam hanya untuk kegiatan produktif atau keadaan darurat mendesak.</li>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="pt-6 border-t border-slate-200/60 mt-6">
+                                <button onclick="window.print()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs py-3 rounded-xl transition-all flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-print"></i> Cetak / Simpan Laporan Simulasi Ini
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 4: KALKULATOR PERBANDINGAN ================= -->
+        <section id="tab-kalkulator" class="tab-content hidden space-y-8">
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                
+                <div class="border-b border-slate-200 pb-4">
+                    <h3 class="text-2xl font-bold text-brand-dark flex items-center gap-2">
+                        <i class="fa-solid fa-scale-balanced text-brand-green"></i> Kalkulator Perbandingan Bunga & Kerugian Utang
+                    </h3>
+                    <p class="text-sm text-slate-600">Bandingkan skema pengembalian Bank Plecit / Pinjol Ilegal dengan Perbankan Resmi OJK secara transparan.</p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <!-- Left Column: Parameter Utang -->
+                    <div class="lg:col-span-4 space-y-5">
+                        <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4">
+                            <h4 class="font-bold text-slate-800 text-sm">Parameter Utang</h4>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Nominal Pinjaman Pokok (Rp)</label>
+                                <input type="text" id="plecit-nominal" value="2.000.000" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-base font-bold text-slate-800">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-700 mb-1">Jangka Waktu / Tenor (Bulan)</label>
+                                <!-- TENOR MANUAL INPUT -->
+                                <input type="text" id="plecit-tenor" value="6" onkeyup="formatAndCalculate(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-green text-sm font-bold text-slate-800" placeholder="Ketik bulan (e.g. 6)">
+                            </div>
+                        </div>
+
+                        <!-- Asumsi Suku Bunga Info Box -->
+                        <div class="p-4 bg-amber-50 rounded-2xl border border-amber-200 text-xs space-y-2 text-amber-900">
+                            <strong class="font-bold block flex items-center gap-1.5 text-amber-900">
+                                <i class="fa-solid fa-circle-info text-amber-600"></i> Asumsi Suku Bunga:
+                            </strong>
+                            <ul class="list-disc pl-4 space-y-1 text-[11px] leading-relaxed">
+                                <li><strong>Bank Plecit / Pinjol Ilegal:</strong> ~15% per bulan + potongan biaya awal.</li>
+                                <li><strong>Bank Resmi / Koperasi OJK:</strong> ~1.2% per bulan (Bunga KUR / Pembiayaan Resmi).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Card Comparison & Banner -->
+                    <div class="lg:col-span-8 space-y-6">
+                        
+                        <!-- Top Two Cards: Plecit vs OJK -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            
+                            <!-- Card Bank Plecit (Red) -->
+                            <div class="bg-rose-50/80 rounded-2xl p-5 border-2 border-rose-300 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-rose-900 uppercase flex items-center gap-1.5">
+                                        <i class="fa-solid fa-triangle-exclamation text-rose-600"></i> BANK PLECIT / PINJOL ILEGAL
+                                    </span>
+                                    <span class="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Mencekik</span>
+                                </div>
+
+                                <div class="pt-2">
+                                    <span class="text-[11px] text-slate-600 block">Total Uang Harus Dikembalikan:</span>
+                                    <p id="res-plecit-total" class="text-2xl font-extrabold text-rose-700">Rp 3.800.000</p>
+                                </div>
+
+                                <div class="space-y-1 text-xs text-slate-700 pt-1 border-t border-rose-200">
+                                    <div class="flex justify-between">
+                                        <span>Bunga & Admin Mencekik:</span>
+                                        <strong id="res-plecit-bunga" class="text-rose-700">Rp 1.800.000</strong>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Cicilan per Bulan:</span>
+                                        <strong id="res-plecit-cicilan" class="text-rose-700">Rp 633.333 / bln</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card Bank Resmi (Green) -->
+                            <div class="bg-emerald-50/80 rounded-2xl p-5 border-2 border-emerald-300 space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-emerald-900 uppercase flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle-check text-emerald-600"></i> BANK RESMI / KOPERASI OJK
+                                    </span>
+                                    <span class="bg-emerald-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">Wajar</span>
+                                </div>
+
+                                <div class="pt-2">
+                                    <span class="text-[11px] text-slate-600 block">Total Uang Harus Dikembalikan:</span>
+                                    <p id="res-ojk-total" class="text-2xl font-extrabold text-emerald-700">Rp 2.144.000</p>
+                                </div>
+
+                                <div class="space-y-1 text-xs text-slate-700 pt-1 border-t border-emerald-200">
+                                    <div class="flex justify-between">
+                                        <span>Bunga Resmi & Wajar:</span>
+                                        <strong id="res-ojk-bunga" class="text-emerald-700">Rp 144.000</strong>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Cicilan per Bulan:</span>
+                                        <strong id="res-ojk-cicilan" class="text-emerald-700">Rp 357.333 / bln</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Selisih Banner -->
+                        <div class="bg-gradient-to-r from-amber-500 via-rose-600 to-rose-700 rounded-2xl p-6 text-white shadow-md flex flex-wrap items-center justify-between gap-4">
+                            <div class="space-y-1">
+                                <span class="text-[11px] font-extrabold uppercase tracking-wider text-amber-200">SELISIH KERUGIAN UANG ANDA</span>
+                                <h4 class="text-lg sm:text-xl font-extrabold leading-snug">
+                                    Anda Menyia-nyiakan / Rugi Uang Sebesar <span id="res-selisih-val" class="text-brand-yellow underline">Rp 1.656.000</span> Jika Memilih Bank Plecit!
+                                </h4>
+                            </div>
+                            <button onclick="switchTab('edukasi')" class="bg-white hover:bg-slate-100 text-slate-800 font-bold text-xs px-4 py-2.5 rounded-xl shadow transition-all whitespace-nowrap">
+                                Pelajari Kontak Resmi <i class="fa-solid fa-arrow-right ml-1"></i>
+                            </button>
+                        </div>
+
+                        <!-- Visual Bar Chart Comparison -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
+                            <span class="text-xs font-bold text-slate-700 uppercase block">GRAFIK PERBANDINGAN PEMBAYARAN TOTAL</span>
+                            <div class="space-y-3 pt-2">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-rose-800">Bank Plecit (Total)</span>
+                                        <span id="bar-plecit-text" class="font-bold text-rose-700">Rp 3.800.000</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-5 rounded-lg overflow-hidden flex">
+                                        <div id="bar-plecit-pokok" class="bg-slate-400 h-full" style="width: 52.6%;"></div>
+                                        <div id="bar-plecit-bunga" class="bg-rose-600 h-full" style="width: 47.4%;"></div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span class="font-semibold text-emerald-800">Bank Resmi OJK (Total)</span>
+                                        <span id="bar-ojk-text" class="font-bold text-emerald-700">Rp 2.144.000</span>
+                                    </div>
+                                    <div class="w-full bg-slate-100 h-5 rounded-lg overflow-hidden flex">
+                                        <div id="bar-ojk-pokok" class="bg-slate-400 h-full" style="width: 93.3%;"></div>
+                                        <div id="bar-ojk-bunga" class="bg-emerald-500 h-full" style="width: 6.7%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex gap-4 text-[11px] text-slate-500 pt-2 border-t border-slate-100">
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-400"></span> Pokok Pinjaman</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-600"></span> Bunga Plecit</span>
+                                <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-500"></span> Bunga Resmi OJK</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <!-- ================= TAB 5: BANTUAN & OJK 157 ================= -->
+        <section id="tab-edukasi" class="tab-content hidden space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <!-- Panduan Teror Pinjol & Checker -->
+                <div class="md:col-span-7 space-y-6">
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-4">
+                        <h3 class="text-xl font-bold text-brand-dark flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass text-brand-green"></i> Cek Legalitas Aplikasi Pinjaman Online
+                        </h3>
+                        <p class="text-xs text-slate-600">Ketik nama aplikasi pinjol untuk mengecek status legalitas terdaftar di OJK.</p>
+
+                        <div class="flex gap-2">
+                            <input type="text" id="search-pinjol" placeholder="Contoh: AdaKami, Kredivo, Uang Petir..." onkeyup="cekLegalitasPinjol()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-sm focus:ring-2 focus:ring-brand-green">
+                            <button onclick="cekLegalitasPinjol()" class="bg-brand-green text-white font-semibold px-4 py-2.5 rounded-xl text-xs hover:bg-brand-dark transition-all">
+                                Cek Status
+                            </button>
+                        </div>
+
+                        <div id="result-check-pinjol" class="hidden p-4 rounded-2xl border text-xs"></div>
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200 space-y-6">
+                        <h3 class="text-xl font-bold text-brand-dark flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-brand-green"></i> Langkah Darurat Menghadapi Pinjol Ilegal / Rentenir
+                        </h3>
+
+                        <div class="space-y-4 text-sm text-slate-700">
+                            <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                                <span class="w-7 h-7 bg-brand-green text-white font-bold rounded-lg flex items-center justify-center flex-shrink-0 text-xs">1</span>
+                                <div>
+                                    <strong class="text-slate-800 font-bold block">Jangan Panik & Amankan Bukti Transaksi</strong>
+                                    Simpan seluruh bukti transfer, percakapan WhatsApp, serta rekaman panggilan intimidasi.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                                <span class="w-7 h-7 bg-brand-green text-white font-bold rounded-lg flex items-center justify-center flex-shrink-0 text-xs">2</span>
+                                <div>
+                                    <strong class="text-slate-800 font-bold block">Laporkan Penyebaran Data Pribadi ke Polisi</strong>
+                                    Apabila penagih melakukan teror, ancaman fisik, atau menyebar foto ke kontak Anda, segera buat aduan ke Kepolisian terdekat.
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                                <span class="w-7 h-7 bg-brand-green text-white font-bold rounded-lg flex items-center justify-center flex-shrink-0 text-xs">3</span>
+                                <div>
+                                    <strong class="text-slate-800 font-bold block">Laporkan ke Satgas PASTI / OJK</strong>
+                                    Gunakan layanan aduan resmi OJK untuk memblokir rekening dan aplikasi pinjaman ilegal tersebut.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kontak Darurat & Pengaduan -->
+                <div class="md:col-span-5 space-y-6">
+                    <div class="bg-gradient-to-br from-brand-dark to-brand-green rounded-3xl p-6 text-white shadow-lg space-y-4">
+                        <h4 class="font-extrabold text-brand-yellow text-lg flex items-center gap-2">
+                            <i class="fa-solid fa-headset"></i> Kontak Layanan Pengaduan Resmi
+                        </h4>
+                        
+                        <div class="space-y-3 text-xs">
+                            <a href="tel:157" class="flex items-center gap-3 p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10">
+                                <div class="w-10 h-10 bg-brand-gold text-brand-dark font-bold rounded-xl flex items-center justify-center text-base">
+                                    <i class="fa-solid fa-phone"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white text-sm block">Kontak OJK 157</strong>
+                                    <span class="text-brand-softgreen">Panggilan Telepon Bebas Pulsa</span>
+                                </div>
+                            </a>
+
+                            <a href="https://wa.me/6281157157157" target="_blank" class="flex items-center gap-3 p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10">
+                                <div class="w-10 h-10 bg-emerald-500 text-white font-bold rounded-xl flex items-center justify-center text-base">
+                                    <i class="fa-brands fa-whatsapp"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white text-sm block">WhatsApp OJK Resmi</strong>
+                                    <span class="text-brand-softgreen">081-157-157-157 (Cek Legalitas)</span>
+                                </div>
+                            </a>
+
+                            <a href="mailto:satgaspasti@ojk.go.id" class="flex items-center gap-3 p-3 bg-white/10 hover:bg-white/20 rounded-2xl transition-all border border-white/10">
+                                <div class="w-10 h-10 bg-amber-500 text-white font-bold rounded-xl flex items-center justify-center text-base">
+                                    <i class="fa-solid fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <strong class="text-white text-sm block">Email Satgas PASTI</strong>
+                                    <span class="text-brand-softgreen">satgaspasti@ojk.go.id</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-white border-t border-brand-emerald mt-12 py-8 no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-3">
+            <div class="flex items-center justify-center gap-2 font-bold text-brand-yellow">
+                <img src="image_b3ba3c.png" alt="DOMPET SADAR" class="w-6 h-6 object-contain bg-white rounded-md p-0.5" onerror="this.style.display='none'">
+                <span>DOMPET SADAR — Kabupaten Wonogiri</span>
+            </div>
+            <p class="text-xs text-brand-softgreen max-w-xl mx-auto">
+                Sistem Anggaran dan Deteksi Risiko Keuangan Pribadi. Inovasi preventif memutus mata rantai utang tidak terukur, bank plecit, dan pinjaman online ilegal.
+            </p>
+            <p class="text-[11px] text-slate-400 pt-2">
+                &copy; 2026 Pemerintah Kabupaten Wonogiri. Selaras dengan Standar Edukasi Finansial OJK.
+            </p>
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT LOGIC INTERAKTIF -->
+    <script>
+        // MODAL LOGIC FOR CUSTOM EXPENSES
+function bukaModalPengeluaran() {
+    document.getElementById('new-exp-name').value = '';
+    document.getElementById('new-exp-val').value = '0';
+    document.getElementById('modal-pengeluaran').classList.remove('hidden');
+    document.getElementById('modal-pengeluaran').classList.add('flex');
+}
+
+function tutupModalPengeluaran() {
+    document.getElementById('modal-pengeluaran').classList.add('hidden');
+    document.getElementById('modal-pengeluaran').classList.remove('flex');
+}
+
+function prosesTambahPengeluaran() {
+    const name = document.getElementById('new-exp-name').value.trim();
+    const pos = document.getElementById('new-exp-pos').value;
+    const val = document.getElementById('new-exp-val').value;
+
+    if (!name) {
+        alert("Harap masukkan nama pengeluaran!");
+        return;
+    }
+
+    let targetGrid;
+    if (pos === "2") targetGrid = document.querySelector('#tab-profil .bg-slate-50\\/90 .grid');
+    else if (pos === "3") targetGrid = document.querySelector('#tab-profil .bg-sky-50\\/70 .grid');
+    else if (pos === "4") targetGrid = document.querySelector('#tab-profil .bg-rose-50\\/70 .grid');
+
+    if (targetGrid) {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'custom-exp-item relative group';
+        itemDiv.setAttribute('data-pos', pos);
+        itemDiv.innerHTML = `
+            <div class="flex justify-between items-center mb-1">
+                <label class="block text-xs font-semibold text-slate-700">${name} (Rp)</label>
+                <button onclick="this.closest('.custom-exp-item').remove(); hitungArusKas();" class="text-rose-500 hover:text-rose-700 text-xs font-bold px-1" title="Hapus field ini">&times;</button>
+            </div>
+            <input type="text" value="${val}" onkeyup="formatAndCalculate(this)" class="custom-exp-input w-full px-3 py-2 rounded-xl border border-slate-300 bg-white focus:ring-2 focus:ring-brand-green text-sm font-semibold text-slate-800">
+        `;
+        targetGrid.appendChild(itemDiv);
+        tutupModalPengeluaran();
+        hitungArusKas();
+    }
+}
+
+// UPDATE JUGA FUNGSI hitungArusKas() AGAR MENGHITUNG DYNAMIC EXPENSES
+// Tambahkan perhitungan kustom ini di dalam fungsi hitungArusKas() Anda:
+function hitungTotalKustomPerPos(posNum) {
+    let total = 0;
+    document.querySelectorAll(`.custom-exp-item[data-pos="${posNum}"] .custom-exp-input`).forEach(input => {
+        total += parseNum(input.value);
+    });
+    return total;
+}
+        // HELPER: PARSE & FORMAT ANGKA BER-TITIK (THOUSANDS SEPARATOR)
+        function parseNum(val) {
+            if (!val) return 0;
+            const str = val.toString().replace(/\D/g, '');
+            return parseFloat(str) || 0;
+        }
+
+        function formatRp(num) {
+            return 'Rp ' + Math.round(num).toLocaleString('id-ID');
+        }
+
+        function formatThousandString(num) {
+            return Math.round(num).toLocaleString('id-ID');
+        }
+
+        // AUTO FORMAT INPUT SAAT DIKETIK
+        function formatAndCalculate(inputEl) {
+            let cursorPosition = inputEl.selectionStart;
+            let originalLen = inputEl.value.length;
+            
+            let rawNum = parseNum(inputEl.value);
+            if (rawNum === 0 && inputEl.value.trim() === '') {
+                inputEl.value = '';
+            } else {
+                inputEl.value = formatThousandString(rawNum);
+            }
+
+            let newLen = inputEl.value.length;
+            cursorPosition = cursorPosition + (newLen - originalLen);
+            try { inputEl.setSelectionRange(cursorPosition, cursorPosition); } catch(e) {}
+
+            hitungArusKas();
+            hitungKalkulatorPerbandingan();
+        }
+
+        // NAVIGATION LOGIC
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            const activeTab = document.getElementById('tab-' + tabName);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-link').forEach(btn => {
+                btn.classList.remove('text-brand-yellow', 'bg-white/10');
+                btn.classList.add('text-white/80');
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabName);
+            if (activeBtn) {
+                activeBtn.classList.add('text-brand-yellow', 'bg-white/10');
+                activeBtn.classList.remove('text-white/80');
+            }
+
+            document.getElementById('mobile-menu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        // TAB PENCATATAN ARUS KAS LOGIC
+        function hitungArusKas() {
+    // Pos 1
+    const incUtama = parseNum(document.getElementById('inc-utama').value);
+    const incSampingan = parseNum(document.getElementById('inc-sampingan').value);
+    const incBansos = parseNum(document.getElementById('inc-bansos').value);
+    const totalInc = incUtama + incSampingan + incBansos;
+
+    // Pos 2 (Ditambah input kustom)
+    const expMakan = parseNum(document.getElementById('exp-makan').value);
+    const expListrik = parseNum(document.getElementById('exp-listrik').value);
+    const expSekolah = parseNum(document.getElementById('exp-sekolah').value);
+    const expKesehatan = parseNum(document.getElementById('exp-kesehatan').value);
+    const customPokok = hitungTotalKustomPerPos("2");
+    const totalPokok = expMakan + expListrik + expSekolah + expKesehatan + customPokok;
+
+    // Pos 3 (Ditambah input kustom)
+    const expJajan = parseNum(document.getElementById('exp-jajan').value);
+    const expArisan = parseNum(document.getElementById('exp-arisan').value);
+    const customGaya = hitungTotalKustomPerPos("3");
+    const totalGaya = expJajan + expArisan + customGaya;
+
+    // Pos 4 (Ditambah input kustom)
+    const expUtangResmi = parseNum(document.getElementById('exp-utang-resmi').value);
+    const expUtangPlecit = parseNum(document.getElementById('exp-utang-plecit').value);
+    const customUtang = hitungTotalKustomPerPos("4");
+    const totalUtang = expUtangResmi + expUtangPlecit + customUtang;
+
+    const totalExp = totalPokok + totalGaya + totalUtang;
+    const netCash = totalInc - totalExp;
+
+    // Update Badges
+    document.getElementById('sum-inc').innerText = formatRp(totalInc);
+    document.getElementById('sum-exp-pokok').innerText = formatRp(totalPokok);
+    document.getElementById('sum-exp-gaya').innerText = formatRp(totalGaya);
+    document.getElementById('sum-exp-utang').innerText = formatRp(totalUtang);
+
+    // Update Pencatatan Tab Output
+    document.getElementById('res-total-inc').innerText = formatRp(totalInc);
+    document.getElementById('res-total-exp').innerText = formatRp(totalExp);
+    document.getElementById('res-net-cash').innerText = formatRp(netCash);
+
+    const netEl = document.getElementById('res-net-cash');
+    if (netCash < 0) {
+        netEl.className = 'font-extrabold text-2xl text-rose-400';
+    } else {
+        netEl.className = 'font-extrabold text-2xl text-emerald-400';
+    }
+
+    const dsrCurrent = totalInc > 0 ? (totalUtang / totalInc) * 100 : 0;
+    document.getElementById('res-dsr-current').innerText = dsrCurrent.toFixed(2) + '%';
+    document.getElementById('bar-dsr-current').style.width = Math.min(dsrCurrent, 100) + '%';
+
+    const statusText = document.getElementById('text-dsr-status');
+    if (dsrCurrent > 30) {
+        statusText.className = 'text-[11px] text-amber-300 font-medium pt-1';
+        statusText.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Beban utang berjalan cukup tinggi (>30%). Hindari menambah utang baru!';
+    } else {
+        statusText.className = 'text-[11px] text-emerald-300 font-medium pt-1';
+        statusText.innerHTML = '<i class="fa-solid fa-circle-check"></i> Arus kas sehat! Beban utang saat ini masih di bawah ambang batas aman (30%).';
+    }
+
+    // Sync dengan Section Ringkasan Keuangan di BERANDA
+    document.getElementById('sum-card-inc').innerText = formatRp(totalInc);
+    document.getElementById('sum-card-exp').innerText = formatRp(totalExp);
+    document.getElementById('sum-card-net').innerText = formatRp(netCash);
+    document.getElementById('sum-card-dsr').innerText = dsrCurrent.toFixed(2) + '%';
+
+    const evalDot = document.getElementById('eval-dot');
+    const evalBadge = document.getElementById('eval-badge');
+    const evalDesc = document.getElementById('eval-desc');
+    const evalCapacity = document.getElementById('eval-capacity');
+    const evalBar = document.getElementById('eval-capacity-bar');
+
+    const maxSafeUtang = totalInc * 0.30;
+    const remainingUtangCapacity = Math.max(0, maxSafeUtang - totalUtang);
+
+    evalCapacity.innerText = formatRp(remainingUtangCapacity) + ' / bulan';
+    evalBar.style.width = Math.min((totalUtang / (totalInc || 1)) * 100, 100) + '%';
+
+    if (netCash < 0 || dsrCurrent > 40) {
+        evalDot.className = 'w-4 h-4 rounded-full bg-rose-600 animate-pulse flex-shrink-0';
+        evalBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-rose-100 text-rose-800';
+        evalBadge.innerText = 'RISIKO BAHAYA AKUT';
+        evalDesc.innerHTML = `<strong class="text-rose-700">Kondisi Keuangan Kritis!</strong> Rasio utang Anda (<strong>${dsrCurrent.toFixed(1)}%</strong>) berada jauh di atas ambang batas aman (30%) atau arus kas Anda minus (<strong>${formatRp(netCash)}</strong>). <strong>Sangat dilarang mengambil pinjaman baru!</strong>`;
+    } else if (dsrCurrent >= 30 && dsrCurrent <= 40) {
+        evalDot.className = 'w-4 h-4 rounded-full bg-amber-500 flex-shrink-0';
+        evalBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800';
+        evalBadge.innerText = 'WASPADA KEUANGAN';
+        evalDesc.innerHTML = `<strong class="text-amber-800">Kondisi Keuangan Waspada!</strong> Rasio utang Anda berada di angka <strong>${dsrCurrent.toFixed(1)}%</strong>. Dapur Anda mulai tertekan. Disarankan untuk memprioritaskan pelunasan utang eksisting.`;
+    } else {
+        evalDot.className = 'w-4 h-4 rounded-full bg-emerald-500 flex-shrink-0';
+        evalBadge.className = 'px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800';
+        evalBadge.innerText = 'SANGAT SEHAT';
+        evalDesc.innerHTML = `Kondisi keuangan keluarga Anda berada dalam kategori <strong class="text-emerald-700">SEHAT</strong>! Rasio utang berjalan berada di angka <strong>${dsrCurrent.toFixed(1)}%</strong> (di bawah ambang batas aman 30%), dan Anda memiliki surplus arus kas bersih sebesar <strong>${formatRp(netCash)}</strong> per bulan.`;
+    }
+
+    // Sync dengan Tab Simulasi
+    document.getElementById('sim-inc-val').innerText = totalInc.toLocaleString('id-ID');
+    simulasikanUtang();
+}
+
+        // TAB SIMULASI PINJAMAN LOGIC
+        function simulasikanUtang() {
+            const incUtama = parseNum(document.getElementById('inc-utama').value);
+            const incSampingan = parseNum(document.getElementById('inc-sampingan').value);
+            const incBansos = parseNum(document.getElementById('inc-bansos').value);
+            const totalInc = incUtama + incSampingan + incBansos;
+
+            const expUtangResmi = parseNum(document.getElementById('exp-utang-resmi').value);
+            const expUtangPlecit = parseNum(document.getElementById('exp-utang-plecit').value);
+            const expUtangLama = expUtangResmi + expUtangPlecit;
+
+            const nominal = parseNum(document.getElementById('sim-nominal').value);
+            const tenor = Math.max(1, parseNum(document.getElementById('sim-tenor').value));
+            const bungaPersen = parseFloat(document.getElementById('sim-bunga').value) || 0;
+            const jenis = document.getElementById('sim-jenis').value;
+
+            const bungaBulan = nominal * (bungaPersen / 100);
+            const pokokBulan = nominal / tenor;
+            const angsuranBaru = pokokBulan + bungaBulan;
+            const totalBebanUtang = expUtangLama + angsuranBaru;
+
+            document.getElementById('sim-angsuran-baru').innerText = formatRp(angsuranBaru);
+            document.getElementById('sim-total-beban').innerText = formatRp(totalBebanUtang);
+
+            const dsrSimulasi = totalInc > 0 ? (totalBebanUtang / totalInc) * 100 : 100;
+
+            const box = document.getElementById('traffic-box');
+            const lightGreen = document.getElementById('light-green');
+            const lightYellow = document.getElementById('light-yellow');
+            const lightRed = document.getElementById('light-red');
+            const title = document.getElementById('traffic-title');
+            const desc = document.getElementById('traffic-desc');
+            const rec = document.getElementById('traffic-recommendation');
+
+            lightGreen.className = 'w-4 h-4 rounded-full bg-slate-300';
+            lightYellow.className = 'w-4 h-4 rounded-full bg-slate-300';
+            lightRed.className = 'w-4 h-4 rounded-full bg-slate-300';
+
+            if (jenis === 'plecit') {
+                lightRed.className = 'w-4 h-4 rounded-full bg-rose-600 light-glow-red animate-pulse';
+                box.className = 'h-full rounded-3xl p-6 border-2 flex flex-col justify-between transition-all duration-300 bg-rose-50 border-rose-500';
+                title.className = 'text-2xl font-extrabold text-rose-800';
+                title.innerHTML = '<i class="fa-solid fa-ban text-rose-600"></i> MERAH: BAHAYA BANK PLECIT / ILEGAL!';
+                desc.innerText = 'Pinjaman dari Bank Plecit / Rentenir / Pinjol Ilegal sangat berbahaya! Denda harian tidak masuk akal & terdapat risiko intimidasi fisik serta penyebaran data.';
+                rec.innerHTML = `
+                    <strong class="text-rose-800 block font-bold">REKOMENDASI KETAT:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-rose-900">
+                        <li><strong>DILARANG KERAS MEMINJAM!</strong> Segera batalkan niat mengajukan pinjaman ini.</li>
+                        <li>Gunakan fasilitas perbankan resmi OJK atau Koperasi Desa terdaftar.</li>
+                    </ul>
+                `;
+            } else if (dsrSimulasi > 40) {
+                lightRed.className = 'w-4 h-4 rounded-full bg-rose-600 light-glow-red';
+                box.className = 'h-full rounded-3xl p-6 border-2 flex flex-col justify-between transition-all duration-300 bg-rose-50 border-rose-400';
+                title.className = 'text-2xl font-extrabold text-rose-800';
+                title.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-rose-600"></i> MERAH: RISIKO KREDIT MACET';
+                desc.innerHTML = `Beban utang Anda akan mencapai <strong>${dsrSimulasi.toFixed(1)}%</strong> dari total pendapatan bulanan. Ini melebihi batas kemampuan bayar (40%).`;
+                rec.innerHTML = `
+                    <strong class="text-rose-800 block font-bold">Rekomendasi Tindakan:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-rose-900">
+                        <li>Pengajuan pinjaman ini berisiko tinggi menyebabkan krisis dapur & ketiadaan uang makan.</li>
+                        <li>Kurangi jumlah nominal pinjaman atau perpanjang jangka waktu tenor.</li>
+                    </ul>
+                `;
+            } else if (dsrSimulasi >= 30 && dsrSimulasi <= 40) {
+                lightYellow.className = 'w-4 h-4 rounded-full bg-amber-500 light-glow-yellow';
+                box.className = 'h-full rounded-3xl p-6 border-2 flex flex-col justify-between transition-all duration-300 bg-amber-50 border-amber-400';
+                title.className = 'text-2xl font-extrabold text-amber-800';
+                title.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-amber-600"></i> KUNING: WASPADA KEUANGAN';
+                desc.innerHTML = `Rasio cicilan utang Anda akan menjadi <strong>${dsrSimulasi.toFixed(1)}%</strong>. Berada di ambang batas moderat (30%-40%).`;
+                rec.innerHTML = `
+                    <strong class="text-amber-800 block font-bold">Rekomendasi Tindakan:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-amber-900">
+                        <li>Pertimbangkan kembali. Pastikan tidak ada pengeluaran mendadak di bulan-bulan mendatang.</li>
+                        <li>Pastikan tujuan utang bersifat produktif (modal usaha/tani), bukan konsumtif.</li>
+                    </ul>
+                `;
+            } else {
+                lightGreen.className = 'w-4 h-4 rounded-full bg-emerald-500 light-glow-green';
+                box.className = 'h-full rounded-3xl p-6 border-2 flex flex-col justify-between transition-all duration-300 bg-emerald-50 border-emerald-400';
+                title.className = 'text-2xl font-extrabold text-emerald-800';
+                title.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-600"></i> HIJAU: PINJAMAN AMAN';
+                desc.innerHTML = `Rasio cicilan utang Anda setelah ditambah pinjaman baru adalah <strong>${dsrSimulasi.toFixed(1)}%</strong> dari total pendapatan. Nilai ini aman & berada di bawah ambang batas toleransi.`;
+                rec.innerHTML = `
+                    <strong class="text-emerald-800 block font-bold">Rekomendasi Tindakan:</strong>
+                    <ul class="list-disc pl-4 space-y-1 text-emerald-900">
+                        <li>Pinjaman diperbolehkan karena tidak mengganggu kebutuhan pokok bulanan keluarga.</li>
+                        <li>Tetap utamakan kedisiplinan membayar angsuran tepat waktu.</li>
+                    </ul>
+                `;
+            }
+        }
+
+        // TAB KALKULATOR PERBANDINGAN LOGIC
+        function hitungKalkulatorPerbandingan() {
+            const nominal = parseNum(document.getElementById('plecit-nominal').value);
+            const tenor = Math.max(1, parseNum(document.getElementById('plecit-tenor').value));
+
+            // Bank Plecit (~15% per bulan)
+            const bungaPlecitRate = 0.15;
+            const totalBungaPlecit = nominal * bungaPlecitRate * tenor;
+            const totalBayarPlecit = nominal + totalBungaPlecit;
+            const cicilanPlecit = totalBayarPlecit / tenor;
+
+            // Bank Resmi OJK (~1.2% per bulan)
+            const bungaOjkRate = 0.012;
+            const totalBungaOjk = nominal * bungaOjkRate * tenor;
+            const totalBayarOjk = nominal + totalBungaOjk;
+            const cicilanOjk = totalBayarOjk / tenor;
+
+            const selisihRugi = totalBayarPlecit - totalBayarOjk;
+
+            document.getElementById('res-plecit-total').innerText = formatRp(totalBayarPlecit);
+            document.getElementById('res-plecit-bunga').innerText = formatRp(totalBungaPlecit);
+            document.getElementById('res-plecit-cicilan').innerText = formatRp(cicilanPlecit) + ' / bln';
+
+            document.getElementById('res-ojk-total').innerText = formatRp(totalBayarOjk);
+            document.getElementById('res-ojk-bunga').innerText = formatRp(totalBungaOjk);
+            document.getElementById('res-ojk-cicilan').innerText = formatRp(cicilanOjk) + ' / bln';
+
+            document.getElementById('res-selisih-val').innerText = formatRp(selisihRugi);
+
+            document.getElementById('bar-plecit-text').innerText = formatRp(totalBayarPlecit);
+            document.getElementById('bar-ojk-text').innerText = formatRp(totalBayarOjk);
+
+            const pctPlecitPokok = (nominal / totalBayarPlecit) * 100;
+            const pctPlecitBunga = 100 - pctPlecitPokok;
+
+            const pctOjkPokok = (nominal / totalBayarOjk) * 100;
+            const pctOjkBunga = 100 - pctOjkPokok;
+
+            document.getElementById('bar-plecit-pokok').style.width = pctPlecitPokok + '%';
+            document.getElementById('bar-plecit-bunga').style.width = pctPlecitBunga + '%';
+
+            document.getElementById('bar-ojk-pokok').style.width = pctOjkPokok + '%';
+            document.getElementById('bar-ojk-bunga').style.width = pctOjkBunga + '%';
+        }
+
+        function simpanDataKas() {
+            const data = {
+                incUtama: document.getElementById('inc-utama').value,
+                incSampingan: document.getElementById('inc-sampingan').value,
+                incBansos: document.getElementById('inc-bansos').value,
+                expMakan: document.getElementById('exp-makan').value,
+                expListrik: document.getElementById('exp-listrik').value,
+                expSekolah: document.getElementById('exp-sekolah').value,
+                expKesehatan: document.getElementById('exp-kesehatan').value,
+                expJajan: document.getElementById('exp-jajan').value,
+                expArisan: document.getElementById('exp-arisan').value,
+                expUtangResmi: document.getElementById('exp-utang-resmi').value,
+                expUtangPlecit: document.getElementById('exp-utang-plecit').value
+            };
+            localStorage.setItem('dompet_sadar_pos_v3_data', JSON.stringify(data));
+            alert('✅ Data pos-pos keuangan berhasil disimpan!');
+        }
+
+        function muatDataKas() {
+            const saved = localStorage.getItem('dompet_sadar_pos_v3_data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    document.getElementById('inc-utama').value = data.incUtama || "5.000.000";
+                    document.getElementById('inc-sampingan').value = data.incSampingan || "1.000.000";
+                    document.getElementById('inc-bansos').value = data.incBansos || "0";
+                    document.getElementById('exp-makan').value = data.expMakan || "1.500.000";
+                    document.getElementById('exp-listrik').value = data.expListrik || "250.000";
+                    document.getElementById('exp-sekolah').value = data.expSekolah || "300.000";
+                    document.getElementById('exp-kesehatan').value = data.expKesehatan || "200.000";
+                    document.getElementById('exp-jajan').value = data.expJajan || "200.000";
+                    document.getElementById('exp-arisan').value = data.expArisan || "150.000";
+                    document.getElementById('exp-utang-resmi').value = data.expUtangResmi || "400.000";
+                    document.getElementById('exp-utang-plecit').value = data.expUtangPlecit || "0";
+                } catch(e) {}
+            }
+        }
+
+        function resetKas() {
+            document.getElementById('inc-utama').value = "5.000.000";
+            document.getElementById('inc-sampingan').value = "1.000.000";
+            document.getElementById('inc-bansos').value = "0";
+            document.getElementById('exp-makan').value = "1.500.000";
+            document.getElementById('exp-listrik').value = "250.000";
+            document.getElementById('exp-sekolah').value = "300.000";
+            document.getElementById('exp-kesehatan').value = "200.000";
+            document.getElementById('exp-jajan').value = "200.000";
+            document.getElementById('exp-arisan').value = "150.000";
+            document.getElementById('exp-utang-resmi').value = "400.000";
+            document.getElementById('exp-utang-plecit').value = "0";
+            localStorage.removeItem('dompet_sadar_pos_v3_data');
+            hitungArusKas();
+        }
+
+        // FITUR CHECKER PINJOL
+        const databasePinjol = [
+            { name: "adakami", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "kredivo", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "indodana", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "rupiah cepat", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "pinjamduit", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "easycash", legal: true, desc: "Legal OJK — Terdaftar & diawasi resmi." },
+            { name: "uang petir", legal: false, desc: "ILEGAL! Terindikasi rentenir digital ilegal & berbahaya." },
+            { name: "cair kilat", legal: false, desc: "ILEGAL! Tidak terdaftar di OJK." },
+            { name: "pinjam yuk cepat", legal: false, desc: "ILEGAL! Dilarang oleh Satgas PASTI." }
+        ];
+
+        function cekLegalitasPinjol() {
+            const query = document.getElementById('search-pinjol').value.trim().toLowerCase();
+            const resultBox = document.getElementById('result-check-pinjol');
+
+            if (!query) {
+                resultBox.classList.add('hidden');
+                return;
+            }
+
+            resultBox.classList.remove('hidden');
+            const found = databasePinjol.find(p => p.name.includes(query) || query.includes(p.name));
+
+            if (found) {
+                if (found.legal) {
+                    resultBox.className = 'p-4 rounded-2xl border text-xs bg-emerald-50 border-emerald-300 text-emerald-900';
+                    resultBox.innerHTML = `<i class="fa-solid fa-circle-check text-emerald-600 text-base mr-1.5"></i> <strong>Aplikasi "${query.toUpperCase()}" BERIZIN RESMI (LEGAL OJK)</strong><br><span class="mt-1 block">${found.desc}</span>`;
+                } else {
+                    resultBox.className = 'p-4 rounded-2xl border text-xs bg-rose-50 border-rose-300 text-rose-900';
+                    resultBox.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-rose-600 text-base mr-1.5"></i> <strong>Aplikasi "${query.toUpperCase()}" TERINDIKASI ILEGAL!</strong><br><span class="mt-1 block">${found.desc}</span>`;
+                }
+            } else {
+                resultBox.className = 'p-4 rounded-2xl border text-xs bg-amber-50 border-amber-300 text-amber-900';
+                resultBox.innerHTML = `<i class="fa-solid fa-circle-question text-amber-600 text-base mr-1.5"></i> Nama <strong>"${query}"</strong> tidak ditemukan dalam sampel database cepat. Hubungi <strong>WhatsApp OJK Resmi (081-157-157-157)</strong> untuk verifikasi penuh.`;
+            }
+        }
+
+        // INITIAL LOAD
+        document.addEventListener('DOMContentLoaded', () => {
+            muatDataKas();
+            hitungArusKas();
+            hitungKalkulatorPerbandingan();
+        });
+    </script>
+</body>
+</html>
